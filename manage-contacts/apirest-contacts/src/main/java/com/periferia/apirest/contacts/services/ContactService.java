@@ -52,4 +52,11 @@ public interface ContactService {
     */
    List<Contact> saveAll(List<Contact> contacts);
 
+    /**
+     * Elimina un contacto del sistema por su identificador único.
+     * 
+     * @param id Identificador único del contacto a eliminar.
+     */
+    void delete(Long id);
+    
 }

@@ -135,4 +135,15 @@ public class ContactServiceImpl implements ContactService {
         return repository.save(contact);
     }
 
+    /**
+     * Elimina un contacto de la base de datos por su identificador único.
+     * 
+     * @param id Identificador único del contacto a eliminar.
+     */
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        // Elimina el contacto de la base de datos por su ID
+        repository.deleteById(id);
+    }
 }

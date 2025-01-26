@@ -103,4 +103,47 @@ public class ContactController {
         return ResponseEntity.badRequest().body("Formato no soportado");
     }
 
+    /**
+     * Endpoint para editar un contacto existente. Si el contacto no existe, devuelve una respuesta 404 (No Encontrado).
+     * 
+     * @param contact Objeto Contact que contiene los datos a actualizar.
+     * @param id Identificador único del contacto a actualizar.
+     * @return Respuesta HTTP con el contacto actualizado o un error 404 si el contacto no existe.
+     */
+    @PutMapping("/contacts/{id}")
+    public ResponseEntity<?> edit(@RequestBody Contact contact, @PathVariable Long id) {
+
+        Optional<Contact> o = service.forId(id);
+
+        if(o.isPresent()) {
+            Contact contactDb = o.get();
+            contactDb.setName(contact.getName());
+            contactDb.setEmail(contact.getEmail());
+            contactDb.setDocument(contact.getDocument());
+            contactDb.setBirthdate(contact.getBirthdate());
+
+            return  ResponseEntity.status(HttpStatus.CREATED).body(service.save(contactDb));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    /**
+     * Endpoint para eliminar un contacto existente por su identificador.
+     * Si el contacto no se encuentra, devuelve una respuesta 404 (No Encontrado).
+     * 
+     * @param id Identificador único del contacto a eliminar.
+     * @return Respuesta HTTP sin contenido con el estado 204 (Sin Contenido) si el contacto fue eliminado.
+     */
+    @DeleteMapping("/contacts/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        Optional<Contact> o = service.forId(id);
+
+        if(o.isPresent()) {
+            service.delete(id);
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
 }
