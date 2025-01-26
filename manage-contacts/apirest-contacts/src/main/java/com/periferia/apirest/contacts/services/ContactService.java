@@ -13,6 +13,29 @@ import java.util.Optional;
  */
 public interface ContactService {
 
+   /**
+     * Obtiene una lista de todos los contactos almacenados en el sistema.
+     *
+     * @return Lista de objetos Contact que representan todos los contactos.
+     */
+    List<Contact> list();
+
+   /**
+     * Obtiene una lista de todos los contactos almacenados en el sistema dependiendo el parametro enviado.
+     *
+     * @return Lista de objetos Contact que representan todos los contactos.
+     */
+    List<Map<String, Object>> listContactsByOrder(String order);
+
+    /**
+     * Busca un contacto por su identificador único.
+     * 
+     * @param id Identificador único del contacto a buscar.
+     * @return Un objeto Optional que contiene el contacto si se encuentra,
+     *         o un valor vacío si no se encuentra ningún contacto con el id proporcionado.
+     */
+    Optional<Contact> forId(Long id);
+
     /**
      * Guarda un nuevo contacto o actualiza uno existente en el sistema.
      *

@@ -28,6 +28,49 @@ public class ContactController {
     private ContactService service;
 
     /**
+     * Endpoint para obtener una lista de todos los contactos.
+     * 
+     * @return Lista de objetos Contact que representan todos los contactos almacenados.
+     */
+    @GetMapping("/contacts")
+    public List<Contact> list() {
+        return service.list();
+    }
+
+    /**
+     * Endpoint para obtener una lista con order dinamico, sea por nombre o por edad.
+     * 
+     * @return Lista de objetos Contact que representan todos los contactos almacenados.
+     */
+    @GetMapping("/contacts/order")
+    public ResponseEntity<?> listByOrder(@RequestParam("order") String order) {
+        try {
+            List<Map<String, Object>> orderedContacts = service.listContactsByOrder(order);
+            return ResponseEntity.ok(orderedContacts);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    /**
+     * Endpoint para obtener los detalles de un contacto específico por su identificador.
+     * Si el contacto no existe, devuelve una respuesta 404 (No Encontrado).
+     * 
+     * @param id Identificador único del contacto a buscar.
+     * @return Respuesta HTTP que contiene el contacto encontrado o un error 404 si no se encuentra.
+     */
+    @GetMapping("/contacts/{id}")
+    public ResponseEntity<?> details(@PathVariable Long id) {
+
+        Optional<Contact> contactOptional = service.forId(id);
+
+        if(contactOptional.isPresent()) {
+            return ResponseEntity.ok(contactOptional.get());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    /**
      * Endpoint para crear uno o más contactos.
      * Si se proporciona un único contacto, lo guarda.
      * Si se proporciona una lista de contactos, guarda todos.
