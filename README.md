@@ -90,12 +90,3 @@ Editar
 gradle test
 Contribuir
 Las contribuciones son bienvenidas. Si tienes alguna idea para mejorar el proyecto, abre un issue o crea un pull request.
-
-Licencia
-Este proyecto está bajo la licencia MIT. Para más detalles, revisa el archivo LICENSE.
-
-markdown
-Copiar
-Editar
-
-Este README sigue el mismo formato que el anterior, con las adaptaciones necesarias para el proy
